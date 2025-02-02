@@ -9,11 +9,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "prop-types": "^15.8.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.13.3",
+    "nodemon": "^3.1.9",
     "process": "^0.11.10"
   }
 }

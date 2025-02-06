@@ -10,21 +10,25 @@ export const MainView = () => {
         fetch("https://film-app-f9566a043197.herokuapp.com/movies")
             .then((response) => response.json())
             .then((data) => {
-                const moviesFromApi = data.docs.map((doc) => {
+                console.log(data);
+
+                const moviesFromApi = data.map((movie) => {
                     return {
-                        id: doc.key,
-                        title: doc.title,
-                        imageURL: doc.imageURL,
-                        description: doc.desription,
-                        director: doc.director,
-                        genre: doc.genre,
+                        id: movie._id,
+                        title: movie.title,
+                        imageUrl: movie.imageUrl,
+                        description: movie.description,
+                        director: movie.director,
+                        genre: movie.genre,
                     };
                 });
 
-                setMovies(moviesFromApi);
-            });
+                setMovies(data);
+            })
+            .catch((error) => console.error("error fetching movies:", error));
     }, []);
     if (selectedMovie) {
+        console.log(selectedMovie);
         return (
             <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)}
             />
@@ -37,10 +41,10 @@ export const MainView = () => {
 
     return (
         <div>
-            {movies.map((movie) => (
+            {movies.map((movieItem) => (
                 <MovieCard
-                    key={movie.id}
-                    movie={movie}
+                    key={movieItem.id}
+                    movie={movieItem}
                     onMovieClick={(newSelectedMovie) => {
                         setSelectedMovie(newSelectedMovie);
                     }}

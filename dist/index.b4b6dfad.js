@@ -18592,48 +18592,52 @@ const MainView = ()=>{
     const [selectedMovie, setSelectedMovie] = (0, _react.useState)(null);
     (0, _react.useEffect)(()=>{
         fetch("https://film-app-f9566a043197.herokuapp.com/movies").then((response)=>response.json()).then((data)=>{
-            const moviesFromApi = data.docs.map((doc)=>{
+            console.log(data);
+            const moviesFromApi = data.map((movie)=>{
                 return {
-                    id: doc.key,
-                    title: doc.title,
-                    imageURL: doc.imageURL,
-                    description: doc.desription,
-                    director: doc.director,
-                    genre: doc.genre
+                    id: movie._id,
+                    title: movie.title,
+                    imageUrl: movie.imageUrl,
+                    description: movie.description,
+                    director: movie.director,
+                    genre: movie.genre
                 };
             });
-            setMovies(moviesFromApi);
-        });
+            setMovies(data);
+        }).catch((error)=>console.error("error fetching movies:", error));
     }, []);
-    if (selectedMovie) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieView.MovieView), {
-        movie: selectedMovie,
-        onBackClick: ()=>setSelectedMovie(null)
-    }, void 0, false, {
-        fileName: "src/Components/MainView/main-view.jsx",
-        lineNumber: 29,
-        columnNumber: 13
-    }, undefined);
+    if (selectedMovie) {
+        console.log(selectedMovie);
+        return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieView.MovieView), {
+            movie: selectedMovie,
+            onBackClick: ()=>setSelectedMovie(null)
+        }, void 0, false, {
+            fileName: "src/Components/MainView/main-view.jsx",
+            lineNumber: 33,
+            columnNumber: 13
+        }, undefined);
+    }
     if (movies.length === 0) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: "The list is empty!"
     }, void 0, false, {
         fileName: "src/Components/MainView/main-view.jsx",
-        lineNumber: 35,
+        lineNumber: 39,
         columnNumber: 16
     }, undefined);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        children: movies.map((movie)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieCard.MovieCard), {
-                movie: movie,
+        children: movies.map((movieItem)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieCard.MovieCard), {
+                movie: movieItem,
                 onMovieClick: (newSelectedMovie)=>{
                     setSelectedMovie(newSelectedMovie);
                 }
-            }, movie.id, false, {
+            }, movieItem.id, false, {
                 fileName: "src/Components/MainView/main-view.jsx",
-                lineNumber: 41,
+                lineNumber: 45,
                 columnNumber: 17
             }, undefined))
     }, void 0, false, {
         fileName: "src/Components/MainView/main-view.jsx",
-        lineNumber: 39,
+        lineNumber: 43,
         columnNumber: 9
     }, undefined);
 };
@@ -18667,18 +18671,8 @@ const MovieCard = ({ movie, onMovieClick })=>{
         onClick: ()=>{
             onMovieClick(movie);
         },
-        children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                src: movie.imageUrl,
-                alt: movie.title
-            }, void 0, false, {
-                fileName: "src/Components/MovieCard/movie-card.jsx",
-                lineNumber: 11,
-                columnNumber: 13
-            }, undefined),
-            movie.title
-        ]
-    }, void 0, true, {
+        children: movie.title
+    }, void 0, false, {
         fileName: "src/Components/MovieCard/movie-card.jsx",
         lineNumber: 6,
         columnNumber: 9
@@ -18686,7 +18680,7 @@ const MovieCard = ({ movie, onMovieClick })=>{
 };
 _c = MovieCard;
 MovieCard.propTypes = {
-    movie: (0, _propTypesDefault.default).shape({
+    movies: (0, _propTypesDefault.default).shape({
     }).isRequired,
     onMovieClick: (0, _propTypesDefault.default).func.isRequired
 };
@@ -19632,6 +19626,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "MovieView", ()=>MovieView);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 const MovieView = ({ movie, onBackClick })=>{
+    console.log(movie.imageUrl);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -19639,12 +19634,12 @@ const MovieView = ({ movie, onBackClick })=>{
                     src: movie.imageUrl
                 }, void 0, false, {
                     fileName: "src/Components/MovieView/movie-view.jsx",
-                    lineNumber: 5,
+                    lineNumber: 6,
                     columnNumber: 17
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/Components/MovieView/movie-view.jsx",
-                lineNumber: 4,
+                lineNumber: 5,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -19653,20 +19648,20 @@ const MovieView = ({ movie, onBackClick })=>{
                         children: "Title: "
                     }, void 0, false, {
                         fileName: "src/Components/MovieView/movie-view.jsx",
-                        lineNumber: 8,
+                        lineNumber: 9,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                         children: movie.title
                     }, void 0, false, {
                         fileName: "src/Components/MovieView/movie-view.jsx",
-                        lineNumber: 9,
+                        lineNumber: 10,
                         columnNumber: 17
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/MovieView/movie-view.jsx",
-                lineNumber: 7,
+                lineNumber: 8,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -19675,20 +19670,20 @@ const MovieView = ({ movie, onBackClick })=>{
                         children: "Director: "
                     }, void 0, false, {
                         fileName: "src/Components/MovieView/movie-view.jsx",
-                        lineNumber: 12,
+                        lineNumber: 13,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: movie.director
+                        children: movie.director.name
                     }, void 0, false, {
                         fileName: "src/Components/MovieView/movie-view.jsx",
-                        lineNumber: 13,
+                        lineNumber: 14,
                         columnNumber: 17
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/MovieView/movie-view.jsx",
-                lineNumber: 11,
+                lineNumber: 12,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -19697,20 +19692,20 @@ const MovieView = ({ movie, onBackClick })=>{
                         children: "Description: "
                     }, void 0, false, {
                         fileName: "src/Components/MovieView/movie-view.jsx",
-                        lineNumber: 16,
+                        lineNumber: 17,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                         children: movie.description
                     }, void 0, false, {
                         fileName: "src/Components/MovieView/movie-view.jsx",
-                        lineNumber: 17,
+                        lineNumber: 18,
                         columnNumber: 17
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/MovieView/movie-view.jsx",
-                lineNumber: 15,
+                lineNumber: 16,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -19719,20 +19714,20 @@ const MovieView = ({ movie, onBackClick })=>{
                         children: "Genre: "
                     }, void 0, false, {
                         fileName: "src/Components/MovieView/movie-view.jsx",
-                        lineNumber: 21,
+                        lineNumber: 22,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: movie.genre
+                        children: movie.genre.name
                     }, void 0, false, {
                         fileName: "src/Components/MovieView/movie-view.jsx",
-                        lineNumber: 22,
+                        lineNumber: 23,
                         columnNumber: 17
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/MovieView/movie-view.jsx",
-                lineNumber: 20,
+                lineNumber: 21,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -19740,13 +19735,13 @@ const MovieView = ({ movie, onBackClick })=>{
                 children: "Back"
             }, void 0, false, {
                 fileName: "src/Components/MovieView/movie-view.jsx",
-                lineNumber: 24,
+                lineNumber: 25,
                 columnNumber: 13
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/Components/MovieView/movie-view.jsx",
-        lineNumber: 3,
+        lineNumber: 4,
         columnNumber: 9
     }, undefined);
 };

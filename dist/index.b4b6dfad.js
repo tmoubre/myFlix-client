@@ -19974,10 +19974,10 @@ const LoginView = ({ onLoggedIn })=>{
         // this prevents the default behavior of the form which is to reload the entire page
         event.preventDefault();
         const data = {
-            access: username,
-            secret: password
+            userId: username,
+            password: password
         };
-        fetch("https://film-app-f9566a043197.herokuapp.com/users", {
+        fetch("https://film-app-f9566a043197.herokuapp.com/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

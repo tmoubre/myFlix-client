@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { MovieCard } from "../MovieCard/movie-card";
 import { MovieView } from "../MovieView/movie-view";
-import { LoginView } from "../LoginView/login-view";
+import { LoginView } from "../loginView/login-view";
 import { SignupView } from "../SignupView/signup-view";
 
 export const MainView = () => {

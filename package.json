@@ -9,9 +9,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bootstrap": "5.2.0",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-bootstrap": "2.5.0",
+    "react-dom": "^19.0.0",
+    "react-scripts": "4.0.0"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.13.3",

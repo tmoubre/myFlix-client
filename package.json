@@ -13,8 +13,9 @@
     "prop-types": "^15.8.1",
     "react": "^19.0.0",
     "react-bootstrap": "2.5.0",
+    "react-bootstrap-validation": "^0.1.11",
     "react-dom": "^19.0.0",
-    "react-scripts": "4.0.0"
+    "react-scripts": "^5.0.1"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.13.3",

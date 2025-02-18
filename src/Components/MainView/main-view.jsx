@@ -47,7 +47,7 @@ export const MainView = () => {
         return (
             <Row className="justify-content-md-center">
                 <Col md={12} className="text-center my-3">
-                    <h1>MyFlix DB</h1>
+                    <h1 className="text-primary">MyFlix DB</h1>
                 </Col>
                 <Col md={5}>
                     <LoginView
@@ -58,7 +58,7 @@ export const MainView = () => {
                     />
                 </Col>
                 <Col md={12} className="text-center my-3">
-                    <span>or</span>
+                    <span style={{color:"white"}}>or</span>
                 </Col>
                 <Col md={5}>
                     <SignupView />
@@ -80,7 +80,7 @@ export const MainView = () => {
     return (
         <Row className="justify-content-md-center mt-5">
             <Col xs={12} className="text-center">
-                <h1>Movie List</h1>
+                <h1 className="text-primary">Movie List</h1>
             </Col>
             {movies.map((movie) => (
                 <Col className="mb-5" key={movie.id} md={3}>
@@ -93,7 +93,7 @@ export const MainView = () => {
                 </Col>
             ))}
             <Col xs={12} className="text-left mt-3 mb-3">
-                <Button onClick={handleLogout}>Logout</Button>
+                <Button variant="primary"onClick={handleLogout}>Logout</Button>
             </Col>
         </Row>
     );

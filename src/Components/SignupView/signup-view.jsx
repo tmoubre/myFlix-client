@@ -43,6 +43,7 @@ export const SignupView = () => {
                   onChange={(e) => setUsername(e.target.value)}
                   required
                   minLength="3"
+                  style={{color:"white"}}
                 />
               </Form.Group>
         
@@ -53,6 +54,7 @@ export const SignupView = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  style={{color:"white"}}
                 />
               </Form.Group>
               <Form.Group controlId="signUpFormEmail">
@@ -62,6 +64,7 @@ export const SignupView = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  style={{color:"white"}}
                 />
               </Form.Group>
               <Form.Group controlId="signUpFormBirthday">
@@ -71,6 +74,7 @@ export const SignupView = () => {
                   value={birthDate}
                   onChange={(e) => setBirthday(e.target.value)}
                   required
+                  style={{color:"white"}}
                 />
               </Form.Group>
               <Button variant="primary" type="submit">

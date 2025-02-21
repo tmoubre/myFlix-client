@@ -1,37 +1,71 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MovieCard } from "../MovieCard/movie-card";
 import { MovieView } from "../MovieView/movie-view";
+import { LoginView } from "../loginView/login-view";
+import { SignupView } from "../SignupView/signup-view";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button"; // Import Button
 
 export const MainView = () => {
-    const [movie, setmovies] = useState([
-        {
-            id: 1,
-            title: 'Dune: Part Two',
-            description: '2024 American epic science fiction film directed and co-produced by Denis Villeneuve, who co-wrote the screenplay with Jon Spaihts.',
-            imageUrl: "https://upload.wikimedia.org/wikipedia/en/thumb/5/52/Dune_Part_Two_poster.jpeg/220px-Dune_Part_Two_poster.jpeg",
-            director: 'Denis Villeneuve',
-            genre: 'scifi',
-        },
-        {
-            id: 2,
-            title: 'Atlas',
-            description: ' 2024 American science fiction action film starring Jennifer Lopez as a highly skilled counterterrorism analyst, who harbors a profound skepticism towards artificial intelligence, and who comes to realize that it may be her sole recourse following the failure of a mission aimed at apprehending a rogue robot.',
-            imageUrl: 'https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Atlas_2024_film_poster.png/220px-Atlas_2024_film_poster.png',
-            director: 'Brad Peyton',
-            genre: 'scifi',
-        },
-        {
-            id: 3,
-            title: 'Code 8: Part II',
-            description: ' 2024 Canadian superhero science fiction action film[1] directed by Jeff Chan, who co-wrote the screenplay with Chris Paré, Sherren Lee and Jesse LaVercombe.',
-            imageUrl: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/45/Code_eight_part_II_poster.jpg/220px-Code_eight_part_II_poster.jpg',
-            director: 'Brad Peyton',
-            genre: 'scifi',
-        },
-
-    ]);
-
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedToken = localStorage.getItem("token");
+    const [movies, setMovies] = useState([]);
     const [selectedMovie, setSelectedMovie] = useState(null);
+    const [token, setToken] = useState(storedToken ? storedToken : null);
+    const [user, setUser] = useState(storedUser ? storedUser : null);
+
+    useEffect(() => {
+        if (!token) return;
+
+        fetch("https://film-app-f9566a043197.herokuapp.com/movies", {
+            headers: { Authorization: `Bearer ${token}` },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                const moviesFromApi = data.map((movie) => ({
+                    id: movie._id,
+                    title: movie.title,
+                    imageUrl: movie.imageUrl,
+                    description: movie.description,
+                    director: movie.director,
+                    genre: movie.genre,
+                }));
+                setMovies(moviesFromApi);
+            })
+            .catch((error) => console.error("Error fetching movies:", error));
+    }, [token]);
+
+    const handleLogout = () => {
+        setUser(null);
+        setToken(null);
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+    };
+
+    if (!user) {
+        return (
+            <Row className="justify-content-md-center">
+                <Col md={12} className="text-center my-3">
+                    <h1 className="text-primary">MyFlix DB</h1>
+                </Col>
+                <Col md={5}>
+                    <LoginView
+                        onLoggedIn={(user, token) => {
+                            setUser(user);
+                            setToken(token);
+                        }}
+                    />
+                </Col>
+                <Col md={12} className="text-center my-3">
+                    <span style={{color:"white"}}>or</span>
+                </Col>
+                <Col md={5}>
+                    <SignupView />
+                </Col>
+            </Row>
+        );
+    }
 
     if (selectedMovie) {
         return (
@@ -39,21 +73,28 @@ export const MainView = () => {
         );
     }
 
-    if (movie.length === 0) {
+    if (movies.length === 0) {
         return <div>The list is empty!</div>;
     }
 
     return (
-        <div>
-            {movie.map((movie) => (
-                <MovieCard
-                    key={movie.id}
-                    movie={movie}
-                    onMovieClick={(newSelectedMovie) => {
-                        setSelectedMovie(newSelectedMovie);
-                    }}
-                />
+        <Row className="justify-content-md-center mt-5">
+            <Col xs={12} className="text-center">
+                <h1 className="text-primary">Movie List</h1>
+            </Col>
+            {movies.map((movie) => (
+                <Col className="mb-5" key={movie.id} md={3}>
+                    <MovieCard
+                        movie={movie}
+                        onMovieClick={(newSelectedMovie) => {
+                            setSelectedMovie(newSelectedMovie);
+                        }}
+                    />
+                </Col>
             ))}
-        </div>
+            <Col xs={12} className="text-left mt-3 mb-3">
+                <Button variant="primary"onClick={handleLogout}>Logout</Button>
+            </Col>
+        </Row>
     );
 };

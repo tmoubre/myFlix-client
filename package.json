@@ -9,12 +9,14 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "bootstrap": "5.2.0",
+    "bootstrap": "^5.2.0",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",
-    "react-bootstrap": "2.5.0",
+    "react-bootstrap": "^2.5.0",
     "react-bootstrap-validation": "^0.1.11",
     "react-dom": "^19.0.0",
+    "react-router": "6.3.0",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1"
   },
   "devDependencies": {

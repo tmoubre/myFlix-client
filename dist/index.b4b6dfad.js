@@ -18690,9 +18690,10 @@ const MainView = ()=>{
             }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Routes), {
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
-                        path: "/signup-view",
+                        path: "/signup",
                         element: user ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Navigate), {
-                            to: "/"
+                            to: "/",
+                            replace: true
                         }, void 0, false, {
                             fileName: "src/Components/MainView/main-view.jsx",
                             lineNumber: 72,
@@ -18717,7 +18718,8 @@ const MainView = ()=>{
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
                         path: "/login",
                         element: user ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Navigate), {
-                            to: "/"
+                            to: "/",
+                            replace: true
                         }, void 0, false, {
                             fileName: "src/Components/MainView/main-view.jsx",
                             lineNumber: 84,
@@ -18753,7 +18755,7 @@ const MainView = ()=>{
                             fileName: "src/Components/MainView/main-view.jsx",
                             lineNumber: 101,
                             columnNumber: 33
-                        }, void 0) : !selectedMovie ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _colDefault.default), {
+                        }, void 0) : movies.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _colDefault.default), {
                             children: "The movie does not exist!"
                         }, void 0, false, {
                             fileName: "src/Components/MainView/main-view.jsx",
@@ -18762,7 +18764,7 @@ const MainView = ()=>{
                         }, void 0) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _colDefault.default), {
                             md: 8,
                             children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieView.MovieView), {
-                                movie: selectedMovie
+                                movies: selectedMovie
                             }, void 0, false, {
                                 fileName: "src/Components/MainView/main-view.jsx",
                                 lineNumber: 106,
@@ -18837,6 +18839,7 @@ const MainView = ()=>{
 };
 _s(MainView, "mG+PpOhcdqWkZzQn0SoTmuucsKI=");
 _c = MainView;
+exports.default = MainView;
 var _c;
 $RefreshReg$(_c, "MainView");
 
@@ -18871,7 +18874,7 @@ const MovieCard = ({ movie, onMovieClick })=>{
                 src: movie.imageUrl
             }, void 0, false, {
                 fileName: "src/Components/MovieCard/movie-card.jsx",
-                lineNumber: 8,
+                lineNumber: 9,
                 columnNumber: 11
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Body, {
@@ -18880,14 +18883,14 @@ const MovieCard = ({ movie, onMovieClick })=>{
                         children: movie.title
                     }, void 0, false, {
                         fileName: "src/Components/MovieCard/movie-card.jsx",
-                        lineNumber: 10,
+                        lineNumber: 11,
                         columnNumber: 13
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
                         children: movie.director.name
                     }, void 0, false, {
                         fileName: "src/Components/MovieCard/movie-card.jsx",
-                        lineNumber: 11,
+                        lineNumber: 12,
                         columnNumber: 13
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
@@ -18896,19 +18899,19 @@ const MovieCard = ({ movie, onMovieClick })=>{
                         children: "Open"
                     }, void 0, false, {
                         fileName: "src/Components/MovieCard/movie-card.jsx",
-                        lineNumber: 12,
+                        lineNumber: 13,
                         columnNumber: 13
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/MovieCard/movie-card.jsx",
-                lineNumber: 9,
+                lineNumber: 10,
                 columnNumber: 11
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/Components/MovieCard/movie-card.jsx",
-        lineNumber: 7,
+        lineNumber: 8,
         columnNumber: 9
     }, undefined);
 };

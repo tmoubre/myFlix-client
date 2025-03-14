@@ -66,10 +66,10 @@ export const MainView = () => {
             ) : (
                 <Routes>
                     <Route
-                        path="/signup-view"
+                        path="/signup"
                         element={
                             user ? (
-                                <Navigate to="/" />
+                                <Navigate to="/" replace/>
                             ) : (
                                 <Col md={5}>
                                     <SignupView />
@@ -81,7 +81,7 @@ export const MainView = () => {
                         path="/login"
                         element={
                             user ? (
-                                <Navigate to="/" />
+                                <Navigate to="/" replace />
                             ) : (
                                 <Col md={5}>
                                     <LoginView
@@ -99,11 +99,11 @@ export const MainView = () => {
                         element={
                             !user ? (
                                 <Navigate to="/login" replace />
-                            ) : !selectedMovie ? (
+                            ) : movies.length === 0 ? (
                                 <Col>The movie does not exist!</Col>
                             ) : (
                                 <Col md={8}>
-                                    <MovieView movie={selectedMovie} />
+                                    <MovieView movies={selectedMovie} />
                                 </Col>
                             )
                         }
@@ -136,3 +136,4 @@ export const MainView = () => {
         </BrowserRouter>
     );
 };
+export default MainView;

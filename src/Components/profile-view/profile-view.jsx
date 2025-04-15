@@ -165,8 +165,8 @@ const deleteAccount = () => {
                                 </Row>
 
                                 <Button variant="primary" onClick={() => setEditing(true)}>Edit Profile</Button>
-                                <Button variant="danger" onClick={deleteAccount}>Delete Account</Button>
-                                <Button variant="danger" onClick={handleLogout}>Logout</Button>
+                                <Button variant="primary" onClick={deleteAccount}>Delete Account</Button>
+                                <Button variant="primary" onClick={handleLogout}>Logout</Button>
                             </>
                         ) : (
                             <>
@@ -176,7 +176,7 @@ const deleteAccount = () => {
                                         <Form.Label>Username</Form.Label>
                                         <Form.Control
                                             type="text"
-                                            value={newInfo.userId}
+                                            className="text-white" value={newInfo.userId}
                                             onChange={e => setNewInfo({ ...newInfo, userId: e.target.value })}
                                         />
                                     </Form.Group>
@@ -185,7 +185,7 @@ const deleteAccount = () => {
                                         <Form.Label>Email</Form.Label>
                                         <Form.Control
                                             type="email"
-                                            value={newInfo.email}
+                                            className="text-white" value={newInfo.email}
                                             onChange={e => setNewInfo({ ...newInfo, email: e.target.value })}
                                         />
                                     </Form.Group>
@@ -194,7 +194,7 @@ const deleteAccount = () => {
                                         <Form.Label>Birthday</Form.Label>
                                         <Form.Control
                                             type="date"
-                                            value={newInfo.birthdate}
+                                            className="text-white" value={newInfo.birthdate}
                                             onChange={e => setNewInfo({ ...newInfo, birthdate: e.target.value })}
                                         />
                                     </Form.Group>
@@ -204,7 +204,7 @@ const deleteAccount = () => {
                                         <Form.Control
                                             type="password"
                                             placeholder="New password"
-                                            value={newInfo.password}
+                                            className="text-white" value={newInfo.password}
                                             onChange={e => setNewInfo({ ...newInfo, password: e.target.value })}
                                         />
                                     </Form.Group>
@@ -214,13 +214,13 @@ const deleteAccount = () => {
                                         <Form.Control
                                             type="password"
                                             placeholder="Confirm new password"
-                                            value={confirmPassword}
+                                            className="text-white" value={confirmPassword}
                                             onChange={e => setConfirmPassword(e.target.value)}
                                         />
                                     </Form.Group>
 
-                                    <Button variant="success" type="submit">Save Changes</Button>
-                                    <Button variant="secondary" onClick={() => setEditing(false)}>Cancel</Button>
+                                    <Button variant="primary" type="submit">Save Changes</Button>
+                                    <Button variant="primary" onClick={() => setEditing(false)}>Cancel</Button>
                                 </Form>
                             </>
                         )}

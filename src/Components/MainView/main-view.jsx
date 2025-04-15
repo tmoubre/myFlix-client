@@ -6,16 +6,18 @@ import { SignupView } from "../SignupView/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ProfileView } from "../profile-view/profile-view";
+
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
-  const [movies, setMovies] = useState([]);
-  //const [selectedMovie, setSelectedMovie] = useState(null);
-  const [token, setToken] = useState(storedToken ? storedToken : null);
-  const [user, setUser] = useState(storedUser ? storedUser : null);
 
+  const [movies, setMovies] = useState([]);
+  const [token, setToken] = useState(storedToken || null);
+  const [user, setUser] = useState(storedUser || null);
+
+  // Fetch movies from the API
   useEffect(() => {
     if (!token) return;
     fetch("https://film-app-f9566a043197.herokuapp.com/movies", {
@@ -35,6 +37,13 @@ export const MainView = () => {
       })
       .catch((error) => console.error("Error fetching movies:", error));
   }, [token]);
+
+  // Handle updates to the user's favorite movies
+  const handleUpdateFavorites = () => {
+    // Placeholder — you could re-fetch the user or trigger a UI refresh
+    console.log("Favorites updated");
+  };
+
   return (
     <BrowserRouter>
       <NavigationBar
@@ -45,7 +54,8 @@ export const MainView = () => {
           localStorage.removeItem("user");
           localStorage.removeItem("token");
         }}
-  />
+      />
+
       <Routes>
         <Route
           path="/signup"
@@ -64,6 +74,7 @@ export const MainView = () => {
             )
           }
         />
+
         <Route
           path="/login"
           element={
@@ -86,7 +97,7 @@ export const MainView = () => {
             )
           }
         />
-          
+
         <Route
           path="/movies/:Id"
           element={
@@ -96,29 +107,37 @@ export const MainView = () => {
               <Col>The movie does not exist!</Col>
             ) : (
               <Col md={8}>
-                <MovieView movies={movies} />
+                <MovieView
+                  movies={movies}
+                  user={user}
+                  onUpdateFavorites={handleUpdateFavorites}
+                />
               </Col>
             )
           }
         />
 
-<Route
-  path="/profile"
-  element={
-    !user ? (
-      <Navigate to="/login" replace />
-    ) : (
-      <Col md={8}>
-        <ProfileView user={user} movies={movies} onLogout={() => {
-          setUser(null);
-          setToken(null);
-          localStorage.removeItem("user");
-          localStorage.removeItem("token");
-        }} />
-      </Col>
-    )
-  }
-/>
+        <Route
+          path="/profile"
+          element={
+            !user ? (
+              <Navigate to="/login" replace />
+            ) : (
+              <Col md={8}>
+                <ProfileView
+                  user={user}
+                  movies={movies}
+                  onLogout={() => {
+                    setUser(null);
+                    setToken(null);
+                    localStorage.removeItem("user");
+                    localStorage.removeItem("token");
+                  }}
+                />
+              </Col>
+            )
+          }
+        />
 
         <Route
           path="/"
@@ -134,7 +153,7 @@ export const MainView = () => {
                     <MovieCard
                       movie={movie}
                       onMovieClick={() => {
-                        //setSelectedMovie(movie);
+                        // Optional: you can use this to navigate to movie details
                       }}
                     />
                   </Col>
@@ -147,4 +166,5 @@ export const MainView = () => {
     </BrowserRouter>
   );
 };
+
 export default MainView;

@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-    
   },
   "keywords": [],
   "author": "",
@@ -11,12 +10,14 @@
   "description": "",
   "dependencies": {
     "bootstrap": "5.2.0",
+    "cors": "^2.8.5",
     "prop-types": "^15.8.1",
-    "react": "^19.0.0",
+    "react": "^19.1.0",
     "react-bootstrap": "2.5.0",
     "react-bootstrap-validation": "^0.1.11",
+    "react-dom": "^19.1.0",
     "react-router": "^7.3.0",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^3.0.1"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.13.3",

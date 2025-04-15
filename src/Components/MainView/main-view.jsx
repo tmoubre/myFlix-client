@@ -45,7 +45,7 @@ export const MainView = () => {
           localStorage.removeItem("user");
           localStorage.removeItem("token");
         }}
-      />
+  />
       <Routes>
         <Route
           path="/signup"
@@ -86,20 +86,7 @@ export const MainView = () => {
             )
           }
         />
-      </Routes>
-      <Routes>
-        <Route
-          path="/signup"
-          element={
-            user ? (
-              <Navigate to="/" replace />
-            ) : (
-              <Col md={5}>
-                <SignupView />
-              </Col>
-            )
-          }
-        />
+          
         <Route
           path="/movies/:Id"
           element={
@@ -114,6 +101,24 @@ export const MainView = () => {
             )
           }
         />
+
+<Route
+  path="/profile"
+  element={
+    !user ? (
+      <Navigate to="/login" replace />
+    ) : (
+      <Col md={8}>
+        <ProfileView user={user} movies={movies} onLogout={() => {
+          setUser(null);
+          setToken(null);
+          localStorage.removeItem("user");
+          localStorage.removeItem("token");
+        }} />
+      </Col>
+    )
+  }
+/>
 
         <Route
           path="/"

@@ -4,10 +4,10 @@ import { MovieView } from "../MovieView/movie-view";
 import { LoginView } from "../loginView/login-view";
 import { SignupView } from "../SignupView/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { ProfileView } from "../profile-view/profile-view";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { ProfileView } from "../profile-view/profile-view";
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -17,31 +17,52 @@ export const MainView = () => {
   const [token, setToken] = useState(storedToken || null);
   const [user, setUser] = useState(storedUser || null);
 
-  // Fetch movies from the API
+  // Fetch all movies
   useEffect(() => {
     if (!token) return;
+
     fetch("https://film-app-f9566a043197.herokuapp.com/movies", {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token}` }
     })
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then((data) => {
-        const moviesFromApi = data.map((movie) => ({
+        const formattedMovies = data.map((movie) => ({
           id: movie._id,
           title: movie.title,
           imageUrl: movie.imageUrl,
           description: movie.description,
           director: movie.director,
-          genre: movie.genre,
+          genre: movie.genre
         }));
-        setMovies(moviesFromApi);
+        setMovies(formattedMovies);
       })
-      .catch((error) => console.error("Error fetching movies:", error));
+      .catch((err) => console.error("Error loading movies:", err));
   }, [token]);
 
-  // Handle updates to the user's favorite movies
-  const handleUpdateFavorites = () => {
-    // Placeholder — you could re-fetch the user or trigger a UI refresh
-    console.log("Favorites updated");
+  // Handle add/remove favorite
+  const handleToggleFavorite = (movieId) => {
+    if (!user) return;
+
+    const isAlreadyFavorite = user.favoriteMovies.includes(movieId);
+    const method = isAlreadyFavorite ? "DELETE" : "POST";
+
+    fetch(`https://film-app-f9566a043197.herokuapp.com/users/${user.userId}/favoriteMovies/${movieId}`, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to update favorites");
+        return res.json();
+      })
+      .then((updatedUser) => {
+        // Update user in state and localStorage
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -64,9 +85,6 @@ export const MainView = () => {
               <Navigate to="/" replace />
             ) : (
               <Row className="justify-content-md-center">
-                <Col md={12} className="text-center my-3">
-                  <h1 className="text-primary">MyFlix DB</h1>
-                </Col>
                 <Col md={5}>
                   <SignupView />
                 </Col>
@@ -82,14 +100,13 @@ export const MainView = () => {
               <Navigate to="/" replace />
             ) : (
               <Row className="justify-content-md-center">
-                <Col md={12} className="text-center my-3">
-                  <h1 className="text-primary">MyFlix DB</h1>
-                </Col>
                 <Col md={5}>
                   <LoginView
                     onLoggedIn={(user, token) => {
                       setUser(user);
                       setToken(token);
+                      localStorage.setItem("user", JSON.stringify(user));
+                      localStorage.setItem("token", token);
                     }}
                   />
                 </Col>
@@ -98,24 +115,25 @@ export const MainView = () => {
           }
         />
 
-        <Route
-          path="/movies/:Id"
-          element={
-            !user ? (
-              <Navigate to="/login" replace />
-            ) : movies.length === 0 ? (
-              <Col>The movie does not exist!</Col>
-            ) : (
-              <Col md={8}>
-                <MovieView
-                  movies={movies}
-                  user={user}
-                  onUpdateFavorites={handleUpdateFavorites}
-                />
-              </Col>
-            )
-          }
+<Route
+  path="/movies/:Id"
+  element={
+    !user ? (
+      <Navigate to="/login" replace />
+    ) : (
+      <Col md={8}>
+        <MovieView
+          movies={movies}
+          user={user}
+          onUpdateFavorites={(updatedUser) => {
+            setUser(updatedUser);
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+          }}
         />
+      </Col>
+    )
+  }
+/>
 
         <Route
           path="/profile"
@@ -152,9 +170,8 @@ export const MainView = () => {
                   <Col className="mb-4" key={movie.id} md={3}>
                     <MovieCard
                       movie={movie}
-                      onMovieClick={() => {
-                        // Optional: you can use this to navigate to movie details
-                      }}
+                      isFavorite={user.favoriteMovies.includes(movie.id)}
+                      onToggleFavorite={handleToggleFavorite}
                     />
                   </Col>
                 ))}
@@ -168,3 +185,4 @@ export const MainView = () => {
 };
 
 export default MainView;
+

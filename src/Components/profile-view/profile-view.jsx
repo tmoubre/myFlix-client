@@ -79,7 +79,7 @@ export const ProfileView = ({ user, onLogout, movies }) => {
     setLoading(true);
     setError(null);
     const token = localStorage.getItem("token");
-    fetch("https://film-app-f9566a043197.herokuapp.com/users/update", {
+    fetch("https://film-app-f9566a043197.herokuapp.com/users/${user.userId}", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

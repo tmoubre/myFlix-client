@@ -33,7 +33,7 @@ export const ProfileView = ({ user, onLogout, movies }) => {
   const handleToggleFavorite = (movieId) => {
     const isAlreadyFavorite = user.favoriteMovies.includes(movieId);
     const method = isAlreadyFavorite ? "DELETE" : "POST";
-
+  
     fetch(
       `https://film-app-f9566a043197.herokuapp.com/users/${user.userId}/favoriteMovies/${movieId}`,
       {
@@ -51,6 +51,10 @@ export const ProfileView = ({ user, onLogout, movies }) => {
         return response.json();
       })
       .then((updatedUser) => {
+        if (!updatedUser || !updatedUser.favoriteMovies) {
+          throw new Error("Updated user data is invalid");
+        }
+  
         setProfile(updatedUser);
         localStorage.setItem("user", JSON.stringify(updatedUser));
         setFavoriteMovies(

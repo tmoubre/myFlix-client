@@ -25,7 +25,7 @@ export const MovieView = ({ movies, user, onUpdateFavorites }) => {
     setError(null);
     const token = localStorage.getItem("token");
     const method = isFavorite ? "DELETE" : "POST";
-    const url = `https://film-app-f9566a043197.herokuapp.com/users/favoriteMovies/${movie.id}`;
+    const url = `https://film-app-f9566a043197.herokuapp.com/users/${user.userId}/favoriteMovies/${movie.id}`;
 
     fetch(url, {
       method: method,

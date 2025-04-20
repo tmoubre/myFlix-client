@@ -22,7 +22,6 @@ export const ProfileView = ({ user, onLogout, movies }) => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Fetch user favorite movies based on their favorites array
   useEffect(() => {
     if (!user || !user.favoriteMovies) return;
     const favoriteMoviesList = movies.filter((m) =>
@@ -31,7 +30,6 @@ export const ProfileView = ({ user, onLogout, movies }) => {
     setFavoriteMovies(favoriteMoviesList);
   }, [movies, user]);
 
-  // Handle toggle favorite (add/remove)
   const handleToggleFavorite = (movieId) => {
     const isAlreadyFavorite = user.favoriteMovies.includes(movieId);
     const method = isAlreadyFavorite ? "DELETE" : "POST";
@@ -53,10 +51,8 @@ export const ProfileView = ({ user, onLogout, movies }) => {
         return response.json();
       })
       .then((updatedUser) => {
-        // Update the user state and localStorage after toggling favorite
         setProfile(updatedUser);
         localStorage.setItem("user", JSON.stringify(updatedUser));
-        // Update the favoriteMovies state to reflect the change
         setFavoriteMovies(
           updatedUser.favoriteMovies.map((movieId) =>
             movies.find((movie) => movie.id === movieId)
@@ -69,7 +65,6 @@ export const ProfileView = ({ user, onLogout, movies }) => {
       });
   };
 
-  // Update user information on form submission
   const handleProfileUpdate = (e) => {
     e.preventDefault();
     if (newInfo.password !== confirmPassword) {
@@ -79,7 +74,8 @@ export const ProfileView = ({ user, onLogout, movies }) => {
     setLoading(true);
     setError(null);
     const token = localStorage.getItem("token");
-    fetch("https://film-app-f9566a043197.herokuapp.com/users/${user.userId}", {
+
+    fetch(`https://film-app-f9566a043197.herokuapp.com/users/${user.userId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +91,8 @@ export const ProfileView = ({ user, onLogout, movies }) => {
       })
       .then((data) => {
         setLoading(false);
-        setProfile(newInfo);
+        setProfile(data);
+        localStorage.setItem("user", JSON.stringify(data));
         setEditing(false);
       })
       .catch((error) => {
@@ -104,12 +101,10 @@ export const ProfileView = ({ user, onLogout, movies }) => {
       });
   };
 
-  // Handle remove movie from favorites
   const handleRemoveFromFavorites = (movieId) => {
-    handleToggleFavorite(movieId); // Use the same toggle function to handle removal
+    handleToggleFavorite(movieId);
   };
 
-  // Delete Account
   const deleteAccount = () => {
     if (
       window.confirm(
@@ -133,10 +128,10 @@ export const ProfileView = ({ user, onLogout, movies }) => {
           }
           return response.json();
         })
-        .then((data) => {
+        .then(() => {
           setLoading(false);
-          onLogout(); // Log the user out after successful deletion
-          navigate("/login"); // Redirect to login page after account deletion
+          onLogout();
+          navigate("/login");
         })
         .catch((error) => {
           setLoading(false);
@@ -145,10 +140,9 @@ export const ProfileView = ({ user, onLogout, movies }) => {
     }
   };
 
-  // Handle logout
   const handleLogout = () => {
     onLogout();
-    navigate("/login"); // Redirect to login page after logout
+    navigate("/login");
   };
 
   return (
@@ -171,7 +165,6 @@ export const ProfileView = ({ user, onLogout, movies }) => {
                   <strong>BirthDate:</strong> {profile.birthDate}
                 </p>
 
-                {/* Display Favorite Movies */}
                 <h3>Favorite Movies</h3>
                 <Row>
                   {favoriteMovies.length > 0 ? (
@@ -206,77 +199,74 @@ export const ProfileView = ({ user, onLogout, movies }) => {
                 </Button>
               </>
             ) : (
-              <>
-                {/* Edit Profile Form */}
-                <Form onSubmit={handleProfileUpdate}>
-                  <Form.Group controlId="username">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                      type="text"
-                      className="text-white"
-                      value={newInfo.userId}
-                      onChange={(e) =>
-                        setNewInfo({ ...newInfo, userId: e.target.value })
-                      }
-                    />
-                  </Form.Group>
+              <Form onSubmit={handleProfileUpdate}>
+                <Form.Group controlId="username">
+                  <Form.Label>Username</Form.Label>
+                  <Form.Control
+                    type="text"
+                    className="text-white"
+                    value={newInfo.userId}
+                    onChange={(e) =>
+                      setNewInfo({ ...newInfo, userId: e.target.value })
+                    }
+                  />
+                </Form.Group>
 
-                  <Form.Group controlId="email">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      type="email"
-                      className="text-white"
-                      value={newInfo.email}
-                      onChange={(e) =>
-                        setNewInfo({ ...newInfo, email: e.target.value })
-                      }
-                    />
-                  </Form.Group>
+                <Form.Group controlId="email">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    className="text-white"
+                    value={newInfo.email}
+                    onChange={(e) =>
+                      setNewInfo({ ...newInfo, email: e.target.value })
+                    }
+                  />
+                </Form.Group>
 
-                  <Form.Group controlId="birthDate">
-                    <Form.Label>Birthday</Form.Label>
-                    <Form.Control
-                      type="date"
-                      className="text-white"
-                      value={newInfo.birthDate}
-                      onChange={(e) =>
-                        setNewInfo({ ...newInfo, birthDate: e.target.value })
-                      }
-                    />
-                  </Form.Group>
+                <Form.Group controlId="birthDate">
+                  <Form.Label>Birthday</Form.Label>
+                  <Form.Control
+                    type="date"
+                    className="text-white"
+                    value={newInfo.birthDate}
+                    onChange={(e) =>
+                      setNewInfo({ ...newInfo, birthDate: e.target.value })
+                    }
+                  />
+                </Form.Group>
 
-                  <Form.Group controlId="password">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="New password"
-                      className="text-white"
-                      value={newInfo.password}
-                      onChange={(e) =>
-                        setNewInfo({ ...newInfo, password: e.target.value })
-                      }
-                    />
-                  </Form.Group>
+                <Form.Group controlId="password">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="New password"
+                    className="text-white"
+                    value={newInfo.password}
+                    onChange={(e) =>
+                      setNewInfo({ ...newInfo, password: e.target.value })
+                    }
+                  />
+                </Form.Group>
 
-                  <Form.Group controlId="confirmPassword">
-                    <Form.Label>Confirm New Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Confirm new password"
-                      className="text-white"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                  </Form.Group>
+                <Form.Group controlId="confirmPassword">
+                  <Form.Label>Confirm New Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Confirm new password"
+                    className="text-white"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                </Form.Group>
 
-                  <Button variant="primary" type="submit">
-                    Save Changes
-                  </Button>
-                  <Button variant="primary" onClick={() => setEditing(false)}>
-                    Cancel
-                  </Button>
-                </Form>
-              </>
+                <Button variant="primary" type="submit">
+                  Save Changes
+                </Button>
+                <Button variant="primary" onClick={() => setEditing(false)}>
+                  Cancel
+                </Button>
+              </Form>
             )}
           </Card.Body>
         </Card>

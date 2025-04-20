@@ -51,6 +51,7 @@ export const ProfileView = ({ user, onLogout, movies }) => {
         return response.json();
       })
       .then((updatedUser) => {
+        console.log("🛠 Backend responded with updated user:", updatedUser);
         if (!updatedUser || !updatedUser.favoriteMovies) {
           throw new Error("Updated user data is invalid");
         }

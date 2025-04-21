@@ -3,6 +3,7 @@ import { MovieCard } from "../MovieCard/movie-card";
 import { MovieView } from "../MovieView/movie-view";
 import { LoginView } from "../loginView/login-view";
 import { SignupView } from "../SignupView/signup-view";
+import { SearchResultsView } from './search-results/search-results';
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "../profile-view/profile-view";
 import Row from "react-bootstrap/Row";

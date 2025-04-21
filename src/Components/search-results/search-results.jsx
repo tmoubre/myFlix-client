@@ -17,7 +17,7 @@ export const SearchResultsView = ({ movies, user, onToggleFavorite }) => {
 
   return (
     <div className="p-4">
-      <h2 className="mb-4">Search Results</h2>
+      <h2 className="mb-4 text-white">Search Results</h2>
       <Row>
         {filteredMovies.length > 0 ? (
           filteredMovies.map((movie) => (

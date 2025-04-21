@@ -135,6 +135,17 @@ export const MainView = () => {
   }
 />
 
+<Route
+  path="/search"
+  element={
+    <SearchResultsView
+      movies={movies}
+      user={user}
+      onToggleFavorite={handleToggleFavorite}
+    />
+  }
+/>
+
         <Route
           path="/profile"
           element={

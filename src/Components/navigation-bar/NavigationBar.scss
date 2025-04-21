@@ -1,0 +1,19 @@
+.search-bar {
+    color: white;
+    background-color: transparent;
+    border: 1px solid white;
+  
+    &::placeholder {
+      color: #ddd;
+    }
+  
+    &:focus {
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      outline: none;
+    }
+  }
+  
+  .navbar {
+    background-color: #1c1c1c; // Optional: darken navbar if needed
+  }
+  

@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
-import { MovieCard } from "../movie-card/movie-card"; // Adjust the import path if needed
+import { MovieCard } from "../MovieCard/movie-card";
 
 export const SearchResultsView = ({ movies, user, onToggleFavorite }) => {
   const location = useLocation();

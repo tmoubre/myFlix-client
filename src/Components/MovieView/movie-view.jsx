@@ -36,14 +36,16 @@ export const MovieView = ({ movies, user, onUpdateFavorites }) => {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error(`Failed to ${isFavorite ? "remove from" : "add to"} favorite movies.`);
+          throw new Error(
+            `Failed to ${isFavorite ? "remove from" : "add to"} favorite movies.`
+          );
         }
         return response.json();
       })
-      .then(() => {
+      .then((updatedUser) => {
         setIsFavorite(!isFavorite);
         setLoading(false);
-        onUpdateFavorites(updatedUser)
+        onUpdateFavorites(updatedUser); // ✅ Use updatedUser from response
       })
       .catch((error) => {
         setError(error.message);
@@ -56,23 +58,27 @@ export const MovieView = ({ movies, user, onUpdateFavorites }) => {
   return (
     <Row className="justify-content-md-center">
       <Col md={12} className="text-center my-3">
-        <div><img alt="" src={movie.imageUrl} /></div>
-        <div style={{ color: "white" }}>
-          <span className="text-white">Title: </span>{movie.title}
+        <div>
+          <img alt={movie.title} src={movie.imageUrl} />
         </div>
         <div style={{ color: "white" }}>
-          <span className="text-white">Director: </span>{movie.director.name}
+          <strong>Title:</strong> {movie.title}
         </div>
         <div style={{ color: "white" }}>
-          <span className="text-white">Description: </span>{movie.description}
+          <strong>Director:</strong> {movie.director.name}
         </div>
         <div style={{ color: "white" }}>
-          <span className="text-white">Genre: </span>{movie.genre.name}
+          <strong>Description:</strong> {movie.description}
+        </div>
+        <div style={{ color: "white" }}>
+          <strong>Genre:</strong> {movie.genre.name}
         </div>
 
         <div className="mb-3">
           {loading ? (
-            <Button variant="primary" disabled>Loading...</Button>
+            <Button variant="primary" disabled>
+              Loading...
+            </Button>
           ) : (
             <Button variant="primary" onClick={toggleFavorite}>
               {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
@@ -82,7 +88,11 @@ export const MovieView = ({ movies, user, onUpdateFavorites }) => {
         </div>
 
         <Link to="/">
-          <button type="button" className="back-button" style={{ cursor: "pointer" }}>
+          <button
+            type="button"
+            className="back-button"
+            style={{ cursor: "pointer" }}
+          >
             Back
           </button>
         </Link>

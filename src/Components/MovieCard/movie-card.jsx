@@ -6,39 +6,38 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 export const MovieCard = ({ movie, onMovieClick, isFavorite, onToggleFavorite }) => {
   return (
-    <Card className="h-100">
-      <Card.Img variant="top" src={movie.imageUrl} />
-      <Card.Body>
-        <Card.Title>{movie.title}</Card.Title>
-        <Card.Text>{movie.director.name}</Card.Text>
+    <Link
+      to={`/movies/${encodeURIComponent(movie.id)}`}
+      className="text-decoration-none text-dark"
+      style={{ textDecoration: "none" }}
+      onClick={() => onMovieClick && onMovieClick(movie)}
+    >
+      <Card className="h-100" style={{ cursor: "pointer" }}>
+        <Card.Img variant="top" src={movie.imageUrl} />
+        <Card.Body>
+          <Card.Title>{movie.title}</Card.Title>
+          <Card.Text>{movie.director.name}</Card.Text>
 
-        <div className="d-flex justify-content-between align-items-center">
-          <Link to={`/movies/${encodeURIComponent(movie.id)}`}>
-            <Button
-              variant="link"
-              onClick={() => onMovieClick && onMovieClick(movie)}
-            >
-              Open
-            </Button>
-          </Link>
-
-          {onToggleFavorite && (
-            <Button
-              variant="link"
-              onClick={(e) => {
-                e.stopPropagation();
-                onToggleFavorite(movie.id);
-              }}
-              title={isFavorite ? "Remove from favorites" : "Add to favorites"}
-              className="text-danger p-0"
-              style={{ fontSize: "1.5rem" }}
-            >
-              {isFavorite ? <FaHeart /> : <FaRegHeart />}
-            </Button>
-          )}
-        </div>
-      </Card.Body>
-    </Card>
+          <div className="d-flex justify-content-end align-items-center">
+            {onToggleFavorite && (
+              <Button
+                variant="link"
+                onClick={(e) => {
+                  e.preventDefault(); // Prevent navigation
+                  e.stopPropagation(); // Prevent bubbling up
+                  onToggleFavorite(movie.id);
+                }}
+                title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                className="text-danger p-0"
+                style={{ fontSize: "1.5rem" }}
+              >
+                {isFavorite ? <FaHeart /> : <FaRegHeart />}
+              </Button>
+            )}
+          </div>
+        </Card.Body>
+      </Card>
+    </Link>
   );
 };
 
@@ -55,3 +54,4 @@ MovieCard.propTypes = {
   isFavorite: PropTypes.bool,
   onToggleFavorite: PropTypes.func,
 };
+

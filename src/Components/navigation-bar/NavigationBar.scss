@@ -12,5 +12,14 @@
       outline: none;
     }
   }
+
+  .form-control {
+    background-color: #2c3554; // your dark background
+    color: white;              // makes the text white
+  
+    &::placeholder {
+      color: #ccc;             // lighter placeholder if needed
+    }
+  }
   
   

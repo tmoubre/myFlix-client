@@ -1,10 +1,10 @@
 .search-bar {
-    color: white;
+    color: white; // This makes the input text white
     background-color: transparent;
     border: 1px solid white;
   
     &::placeholder {
-      color: #ddd;
+      color: rgba(255, 255, 255, 0.6); // White-ish placeholder
     }
   
     &:focus {
@@ -13,7 +13,4 @@
     }
   }
   
-  .navbar {
-    background-color: #1c1c1c; // Optional: darken navbar if needed
-  }
   

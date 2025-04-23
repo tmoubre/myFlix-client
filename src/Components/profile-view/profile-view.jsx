@@ -33,7 +33,7 @@ export const ProfileView = ({ user, onLogout, movies }) => {
   const handleToggleFavorite = (movieId) => {
     const isAlreadyFavorite = user.favoriteMovies.includes(movieId);
     const method = isAlreadyFavorite ? "DELETE" : "POST";
-  
+
     fetch(
       `https://film-app-f9566a043197.herokuapp.com/users/${user.userId}/favoriteMovies/${movieId}`,
       {
@@ -51,11 +51,10 @@ export const ProfileView = ({ user, onLogout, movies }) => {
         return response.json();
       })
       .then((updatedUser) => {
-        console.log("🛠 Backend responded with updated user:", updatedUser);
         if (!updatedUser || !updatedUser.favoriteMovies) {
           throw new Error("Updated user data is invalid");
         }
-  
+
         setProfile(updatedUser);
         localStorage.setItem("user", JSON.stringify(updatedUser));
         setFavoriteMovies(
@@ -104,10 +103,6 @@ export const ProfileView = ({ user, onLogout, movies }) => {
         setLoading(false);
         setError(error.message);
       });
-  };
-
-  const handleRemoveFromFavorites = (movieId) => {
-    handleToggleFavorite(movieId);
   };
 
   const deleteAccount = () => {
@@ -167,7 +162,8 @@ export const ProfileView = ({ user, onLogout, movies }) => {
                   <strong>Email:</strong> {profile.email}
                 </p>
                 <p>
-                  <strong>BirthDate:</strong> {profile.birthDate}
+                  <strong>BirthDate:</strong>{" "}
+                  {new Date(profile.birthDate).toISOString().split("T")[0]}
                 </p>
 
                 <h3>Favorite Movies</h3>
